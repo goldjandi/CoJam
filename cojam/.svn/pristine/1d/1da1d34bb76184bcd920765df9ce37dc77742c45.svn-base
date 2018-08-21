@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	
+	<body>
+		<h1>게시글 작성</h1>
+	
+		<form method="post" action="/menu/academyread.com">
+			<c:choose>
+				<c:when test="${null eq id}">
+				<input type="hidden" name="academy_id" value="익명">
+				</c:when>
+				<c:when test="${null ne id}">
+				<input type="hidden" name="academy_id" value="${sessionScope.id}">
+				</c:when>
+			</c:choose>
+			
+			<input type="hidden" name="academy_geogra" value="기달">
+			<input type="text" name="academy_title" placeholder="제목을 입력하세요" /> <br>
+			<textarea name="academy_content" rows="15" placeholder="내용을 입력하세요"></textarea>
+			<button type="submit">작성</button>
+		</form>
+	
+	</body>
+</html>

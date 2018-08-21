@@ -1,0 +1,82 @@
+package test.seminar;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class SeminarDao extends SqlSessionDaoSupport {
+
+	public List<SeminarDto> getAllDatas() {
+		return getSqlSession().selectList("SelectAll");
+	}
+	
+	public int TotalCount() {
+		return getSqlSession().selectOne("TotalCounts");
+	}
+
+	public List<SeminarDto> getSearchedDatas(SeminarDto dto) { 
+		String sql ="select * from seminar where ";
+		String skills = "";
+		String category ="";
+		String date ="";
+		String keyword = "";
+		if (dto.getKeyword() != null) {
+			keyword = dto.getKeyword().trim();
+		}
+
+		skills += "skills like '%"+keyword+"%' ";
+
+		if (dto.getSkills()!=null) {
+			StringTokenizer st = new StringTokenizer(dto.getSkills(), ",");
+			while (st.hasMoreTokens()) {
+				skills += "AND skills like '%"+st.nextToken()+"%' ";
+			}
+		}	
+
+		if (dto.getCategory() != null) {
+			StringTokenizer st = new StringTokenizer(dto.getCategory(), ",");
+			while (st.hasMoreTokens()) {
+				category += "AND category like '%"+st.nextToken()+"%' ";
+			}
+			category += "AND category like '%"+keyword+"%' ";
+		}
+
+		if (dto.getStartday() != null && dto.getEndday() != null) {
+			date = "AND startday between "+dto.getStartday()+"and "+dto.getEndday()+"AND endday between "+dto.getStartday()+"and "+dto.getEndday();
+		}
+
+		sql = sql + skills + category;
+
+		if (dto.getLocation()!= "") {
+			sql += "AND location like '%"+dto.getLocation()+"%' ";
+		}
+
+		if (dto.getKeyword()!= null) {
+			sql += "AND skills like '%"+keyword+"%' AND category like '%"+keyword+"%' AND location like '%"+keyword+"%'";
+		}
+
+		if(dto.getLocation()=="" && dto.getCategory()==null && dto.getSkills() ==null && dto.getKeyword() !=null) {
+			sql = "select * from seminar where skills like '%"+keyword+"%' OR category like '%"+keyword+"%' OR location like '%"+keyword+"%'";
+		}
+
+		System.out.println("sql="+sql);
+		Map<String,String> map = new HashMap<>();
+		map.put("sql", sql);
+
+		return getSqlSession().selectList("SelectSearched", map);
+	}
+	
+	public List<SeminarDto> getList(int start,int end) {
+		  HashMap <String,Object>map=new HashMap<String,Object>();
+		  map.put("start", start);
+		  map.put("end", end);
+		  List<SeminarDto> list=getSqlSession().selectList("semiselectDatas",map);
+		  return list;
+		 }
+
+}

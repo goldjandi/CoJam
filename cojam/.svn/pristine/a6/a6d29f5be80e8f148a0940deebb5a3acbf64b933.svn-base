@@ -1,0 +1,45 @@
+package test.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import test.seminar.SeminarDao;
+import test.seminar.SeminarDto;
+
+@Controller
+public class SeminarController {
+	
+	@Autowired
+	SeminarDao seminardao;
+
+	/*@RequestMapping("/menu/seminarmain.com")
+	ModelAndView mainGo(@RequestParam (value ="currentPage", defaultValue ="1") String currentPage,
+						@RequestParam (value ="currentBlock", defaultValue ="1") String currentBlock) {
+		int totalCount = seminardao.TotalCount();
+		int column = 12;
+		int blockCount = 5;
+		double totalPage= Math.ceil(totalCount / column);
+		double endBlock;
+		
+		endBlock = Math.ceil(totalPage / blockCount);
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("currentPage",currentPage);
+		mav.addObject("totalPage",totalPage);
+		mav.addObject("currentBlock",currentBlock);
+		mav.addObject("datas", seminardao.getAllDatas());
+		mav.setViewName("/1/view/seminar");
+		return mav;
+	}*/
+	
+	@RequestMapping("/shearchedSeminarGo.com")
+	public ModelAndView shearchedSeminarGo(SeminarDto dto) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("datas", seminardao.getSearchedDatas(dto));
+		mav.setViewName("/1/view/searchedseminar");
+		return mav;
+	}
+
+}

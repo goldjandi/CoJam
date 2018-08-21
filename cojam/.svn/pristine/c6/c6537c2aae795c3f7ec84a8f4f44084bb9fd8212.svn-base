@@ -1,0 +1,41 @@
+package test.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import test.academy.academyDao;
+import test.academy.academyDto;
+
+@Controller
+public class AcademyController {
+
+	@Autowired
+	private academyDao academydao;
+
+	/*@RequestMapping("/menu/academy.com")
+	public ModelAndView academy() {
+		ModelAndView model=new ModelAndView();
+		List<academyDto> list=academydao.getAlldatas();
+		model.addObject("acadlist",list);
+		model.setViewName("/1/board/academy");
+		return model;
+	}*/
+
+	@RequestMapping(value="/menu/academyread.com",method=RequestMethod.POST)
+	public ModelAndView academyRead(@ModelAttribute academyDto academydto) {
+		ModelAndView view=new ModelAndView();
+		academydao.insertAcademy(academydto);
+		view.setViewName("redirect:academy.com");
+		return view;
+	}
+
+	@RequestMapping("/menu/acadWriteForm.com")
+	public String acadWriteForm() {
+		return "/1/board/acadWriteForm";
+	} 
+
+}

@@ -1,0 +1,32 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+	
+</script>
+<style>
+	.seminarform textarea{width:60%;}
+	.seminarform {font-family: 'Nanum Myeongjo', serif; font-weight: bold;}
+	h1 {font-family: 'Do Hyeon', sans-serif; font-size:2.8vw; margin-right:10%; color: black;}
+</style>
+</head>
+<body>
+<h1>세미나 글쓰기</h1>
+<form class ="seminarform" action ="seminarwrite.com">
+
+	<label>Title :</label><input type="text" name="title">
+	<label>StartDay :</label><input type ="date" name="startday">
+	<label>EndDay :</label><input type ="date" name="endday">
+	<br>
+	<textarea cols="200" rows="20" name="content">
+	</textarea>
+	<br>
+	<input type="submit" value="글쓰기">
+</form>
+</body>
+</html>
